@@ -1,18 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Tile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [ReadOnly]
+    public Cube coordinates;
+
+    public void Awake()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
-        
+        CheckCoordinates();
+        CheckPosition();
     }
+
+    void CheckCoordinates()
+    {
+
+    }
+
+    void CheckPosition()
+    {
+
+    }
+
+    private void OnDrawGizmos() => Handles.Label(transform.position, coordinates.ToString());
 }
