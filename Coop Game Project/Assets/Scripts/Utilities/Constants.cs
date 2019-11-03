@@ -1,9 +1,9 @@
 ﻿
 public static class Constants
 {
-    public static float HexTileRadius = 1;
-    public static float HexTileRadiusOffset = 0;
-    public static float HexTileRadiusWithOffset = HexTileRadius + HexTileRadiusOffset;
-
-    public static bool HexTileOrientationPointy = true;
+    public static float TileMapHeight { get; } = 0;
+    public static float HexTileRadius { get; } = 1;
+    public static float HexTileRadiusOffset { get; } = 0;
+    public static bool HexTileOrientationPointy { get; } = true;
+    public static float HexTileRadiusWithOffset { get; } = HexTileRadius + HexTileRadiusOffset;
 }
