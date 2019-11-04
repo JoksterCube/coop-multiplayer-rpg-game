@@ -5,17 +5,19 @@ using UnityEditor;
 
 public class Tile : MonoBehaviour
 {
-    public Cube Coordinates { get; set; }
+    [ReadOnly]
+    public Cube coordinates;
+    public bool showLabels;
 
     private Vector3 coordPosition;
 
-    public Tile() => Coordinates = new Cube();
-    public Tile(Cube coordinates) => Coordinates = coordinates;
+    public Tile() => coordinates = new Cube();
+    public Tile(Cube coordinates) => this.coordinates = coordinates;
 
 
     public void Awake()
     {
-        SetTileCoordinates(Coordinates);
+        SetTileCoordinates(coordinates);
     }
 
     public void Start()
@@ -25,11 +27,11 @@ public class Tile : MonoBehaviour
 
     public void SetTileCoordinates(int x, int y, int z)
     {
-        Coordinates.SetValues(x, y, z);
-        transform.position = coordPosition = Cube.PositionFromCubeCoordinates(Coordinates, Constants.HexTileOrientationPointy);
+        coordinates.SetValues(x, y, z);
+        transform.position = coordPosition = Cube.PositionFromCubeCoordinates(coordinates, Constants.HexTileOrientationPointy);
     }
 
-    public void SetTileCoordinates(Cube c) => SetTileCoordinates(c.X, c.Y, c.Z);
+    public void SetTileCoordinates(Cube c) => SetTileCoordinates(c.x, c.y, c.z);
     public void SetTileCoordinates(Vector3Int v) => SetTileCoordinates(v.x, v.y, v.z);
 
 
@@ -46,7 +48,7 @@ public class Tile : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Coordinates != null)
-            Handles.Label(transform.position, Coordinates.ToString());
+        if (coordinates != null && showLabels)
+            Handles.Label(transform.position, coordinates.ToString());
     }
 }

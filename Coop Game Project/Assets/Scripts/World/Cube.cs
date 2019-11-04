@@ -6,9 +6,9 @@ public class Cube
     public static Cube Zero => new Cube(Vector3Int.zero);
     public static Cube One => new Cube(Vector3Int.one);
 
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Z { get; set; }
+    public int x;
+    public int y;
+    public int z;
 
     private static Cube[] CubeDirections { get; } = {
         new Cube(+1, -1, 0),
@@ -23,28 +23,28 @@ public class Cube
     {
         if (IsValidCube(x, y, z))
         {
-            X = x;
-            Y = y;
-            Z = z;
+            this.x = x;
+            this.y = y;
+            this.z = z;
         }
         else
         {
             Debug.LogWarning("Invalid Cube " + (new Vector3Int(x, y, z).ToString()));
-            X = 0;
-            Y = 0;
-            Z = 0;
+            this.x = 0;
+            this.y = 0;
+            this.z = 0;
         }
     }
     public void SetValues(Cube c)
     {
         if (c != null)
-            SetValues(c.X, c.Y, c.Z);
+            SetValues(c.x, c.y, c.z);
         else
             Debug.LogWarning("Cube is null.");
     }
     public void SetValues(Vector3Int v) => SetValues(v.x, v.y, v.z);
 
-    public Vector3Int CubeVector() => new Vector3Int(X, Y, Z);
+    public Vector3Int CubeVector() => new Vector3Int(x, y, z);
 
     public Cube() => SetValues(Zero);
     public Cube(int x, int y, int z)
@@ -57,11 +57,11 @@ public class Cube
             SetValues(Zero);
         }
     }
-    public Cube(Cube c) : this(c.X, c.Y, c.Z) { }
+    public Cube(Cube c) : this(c.x, c.y, c.z) { }
     public Cube(Vector3Int v) : this(v.x, v.y, v.z) { }
 
-    public bool IsValidCube() => X + Y + Z == 0;
-    public static bool IsValidCube(Cube c) => IsValidCube(c.X, c.Y, c.Z);
+    public bool IsValidCube() => x + y + z == 0;
+    public static bool IsValidCube(Cube c) => IsValidCube(c.x, c.y, c.z);
     public static bool IsValidCube(Vector3Int v) => IsValidCube(v.x, v.y, v.z);
     public static bool IsValidCube(int x, int y, int z) => x + y + z == 0;
 
@@ -108,7 +108,7 @@ public class Cube
 
         return new Vector3(newX, Constants.TileMapHeight, newZ);
     }
-    public static Vector3 PositionFromCubeCoordinates(Cube c, bool pointy) => PositionFromCubeCoordinates(c.X, c.Y, c.Z, pointy);
+    public static Vector3 PositionFromCubeCoordinates(Cube c, bool pointy) => PositionFromCubeCoordinates(c.x, c.y, c.z, pointy);
     public static Vector3 PositionFromCubeCoordinates(Vector3Int v, bool pointy) => PositionFromCubeCoordinates(v.x, v.y, v.z, pointy);
 
 
@@ -123,14 +123,14 @@ public class Cube
     public static float Distance(Cube a, Cube b)
     {
         if (a != null && b != null)
-            return (Mathf.Abs(a.X - b.X) + Mathf.Abs(a.Y - b.Y) + Mathf.Abs(a.Z - b.Z)) / 2;
+            return (Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y) + Mathf.Abs(a.z - b.z)) / 2;
         else
             Debug.LogWarning("One or more of the cubes are nulls.");
         return 0;
     }
 
-    public static Cube Add(Cube a, Cube b) => new Cube(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
-    public static Cube Scale(Cube a, int b) => new Cube(a.X * b, a.Y * b, a.Z * b);
+    public static Cube Add(Cube a, Cube b) => new Cube(a.x + b.x, a.y + b.y, a.z + b.z);
+    public static Cube Scale(Cube a, int b) => new Cube(a.x * b, a.y * b, a.z * b);
     public static Cube Direction(int direction) => CubeDirections[direction];
     public static Cube Neighbour(Cube cube, int direction) => Add(cube, Direction(direction));
 }
