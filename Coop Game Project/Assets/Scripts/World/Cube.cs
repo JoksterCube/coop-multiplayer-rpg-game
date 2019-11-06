@@ -133,4 +133,26 @@ public class Cube
     public static Cube Scale(Cube a, int b) => new Cube(a.x * b, a.y * b, a.z * b);
     public static Cube Direction(int direction) => CubeDirections[direction];
     public static Cube Neighbour(Cube cube, int direction) => Add(cube, Direction(direction));
+    public static Cube Neighbour(Cube cube, Vector2 inputVector) => Add(cube, InputVectorToCubeDirection(inputVector));
+    
+    public static Cube InputVectorToCubeDirection(Vector2 inputVector)
+    {
+        if (inputVector.sqrMagnitude == 0)
+            return Zero;
+
+        float inputAngle = Vector2.SignedAngle(Vector2.right, inputVector);
+
+        float angleStep = 60;
+        int direction;
+        float approxDir = inputAngle / angleStep;
+
+        if (!Constants.HexTileOrientationPointy)
+            approxDir += .5f;
+
+        direction = Mathf.RoundToInt(approxDir);
+        if (direction < 0)
+            direction += 6; //Length of directions
+
+        return Direction(direction);
+    }
 }
