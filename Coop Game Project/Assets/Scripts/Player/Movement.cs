@@ -4,33 +4,28 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    Cube currentPositionCube = Cube.Zero;
-    Cube lastPositionCube;
+    private Cube currentPositionCube = Cube.Zero;
+    private Cube lastPositionCube;
 
-    float cooldown = 1;
-    float cooldownTime = 0;
+    private Vector2 inputVector;
+    private bool newInput = false;
+
+    private float moveCooldown = .5f;
+    private float nextMoveAwailable = 0f; 
 
     private void Awake()
     {
         lastPositionCube = currentPositionCube;
     }
-    private void Start()
-    {
-
-    }
-
     private void Update()
     {
-        if(Time.time >= cooldownTime)
-        { 
-            Vector2 inputVector = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            if (inputVector.sqrMagnitude > 0)
-            {
-                MoveToVector(inputVector);
-                cooldownTime = Time.time + cooldown;
-            }
+        if(newInput)
+        {
+            MoveToVector(inputVector);
+            newInput = false;
         }
     }
+
 
     private void FixedUpdate()
     {
@@ -41,19 +36,24 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void SetInputVector(Vector2 inputVector)
+    {
+        if (Time.time > nextMoveAwailable)
+        {
+            this.inputVector = inputVector;
+            newInput = true;
+        }
+    }
+
     public void MoveToVector(Vector2 directionVector)
     {
         Cube newPositionCubeCoordinate = Cube.Neighbour(currentPositionCube, directionVector);
         MoveToCube(newPositionCubeCoordinate);
     }
-    public void MoveToDirection(int direction)
-    {
-        Cube newPositionCubeCoordinate = Cube.Neighbour(currentPositionCube, direction);
-        MoveToCube(newPositionCubeCoordinate);
-    }
     
     public void MoveToCube(Cube newPositionCubeCoordinate)
     {
+        nextMoveAwailable = Time.time + moveCooldown;
         lastPositionCube = currentPositionCube;
         currentPositionCube = newPositionCubeCoordinate;
     }    
